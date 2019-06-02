@@ -28,7 +28,11 @@ const HomeStack = createStackNavigator(
     Result: {
       screen: Result,
       navigationOptions: {
-        title: '结算'
+        title: '',
+        headerStyle: {
+          backgroundColor: '#2c9dfb',
+          elevation: 0
+        }
       }
     }
   },

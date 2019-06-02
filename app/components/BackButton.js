@@ -10,7 +10,7 @@ export default class BackButton extends Component {
 
 const styles = StyleSheet.create({
   icon: {
-    marginLeft: 20,
+    marginLeft: 10,
     width: 20,
     height: 16
   }

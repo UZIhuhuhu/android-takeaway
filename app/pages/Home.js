@@ -3,6 +3,7 @@ import {
   View,
   Image,
   Text,
+  Alert,
   ScrollView,
   FlatList,
   Dimensions,
@@ -12,9 +13,8 @@ import Avatar from '../assets/avatar.png';
 import foodsData from '../data';
 
 export default function Home({ navigation }) {
-  const [isSelect, handleSelect] = useState('未选购商品');
-  const [foodType, handleType] = useState('优惠');
-
+  const [isSelect, handleSelect] = useState([]);
+  const [foodType, handleType] = useState('热销');
   const Width = Dimensions.get('screen').width;
   const renderSideBar = ({ item }) => (
     <TouchableOpacity
@@ -104,7 +104,7 @@ export default function Home({ navigation }) {
           </Text>
           <TouchableOpacity
             onPress={() => {
-              handleSelect(item.money);
+              handleSelect([...isSelect, item]);
             }}
           >
             <Text
@@ -126,6 +126,11 @@ export default function Home({ navigation }) {
       </View>
     </View>
   );
+  const moneySummary = () =>
+    isSelect.map(item => item.money).reduce((x, y) => Number(x) + Number(y));
+
+  const canIPayMoney = () => !!(isSelect.length > 0 && moneySummary() >= 20);
+
   return (
     <View style={{ flex: 1 }}>
       <ScrollView>
@@ -233,18 +238,22 @@ export default function Home({ navigation }) {
           <Text
             style={{
               fontSize: 17,
-              color: '#ffffff',
+              color: isSelect.length === 0 ? '#b6b6b6' : '#ffffff',
               lineHeight: 46,
               marginLeft: 16
             }}
           >
-            {isSelect === '未选购商品' ? '未选购商品' : `¥${isSelect}`}
+            {isSelect.length === 0
+              ? '未选购商品'
+              : isSelect.length === 1
+              ? `¥${isSelect[0].money}`
+              : `¥${moneySummary()}`}
           </Text>
         </View>
         <View
           style={{
             width: Width - 255,
-            backgroundColor: '#008bff',
+            backgroundColor: canIPayMoney() ? '#008bff' : '#b6b6b6',
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center'
@@ -252,7 +261,14 @@ export default function Home({ navigation }) {
         >
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('Result', { username: 1 });
+              if (canIPayMoney()) {
+                navigation.navigate('Result', {
+                  selectFoods: isSelect,
+                  summary: moneySummary()
+                });
+              } else {
+                Alert.alert('满20起送哦');
+              }
             }}
           >
             <Text
@@ -262,7 +278,7 @@ export default function Home({ navigation }) {
                 fontFamily: 'PingFangSC-Semibold'
               }}
             >
-              去结算
+              {canIPayMoney() ? '去结算' : '¥20起送'}
             </Text>
           </TouchableOpacity>
         </View>
