@@ -15,7 +15,94 @@ import foodsData from '../data';
 export default function Home({ navigation }) {
   const [isSelect, handleSelect] = useState([]);
   const [foodType, handleType] = useState('热销');
+
   const Width = Dimensions.get('screen').width;
+
+  const renderRecommand = ({ item }) => (
+    <View
+      elevation={5}
+      style={{
+        width: 110,
+        marginRight: 10,
+        shadowColor: '#000000',
+        shadowOffset: {
+          width: 110,
+          height: 140
+        },
+        shadowOpacity: 1.0
+      }}
+    >
+      <View style={{ marginBottom: 10 }}>
+        <Image
+          source={Avatar}
+          style={{
+            width: 110,
+            height: 105,
+            borderRadius: 4,
+            overflow: 'hidden'
+          }}
+        />
+      </View>
+      <Text
+        style={{
+          fontFamily: 'PingFangSC-Semibold',
+          fontSize: 14,
+          marginBottom: 3,
+          color: '#222222'
+        }}
+      >
+        {item.name}
+      </Text>
+      <Text
+        style={{
+          color: '#b6b6b6',
+          fontSize: 11,
+          fontFamily: 'PingFangSC-Semibold',
+          marginBottom: 18
+        }}
+      >
+        月售25 好评率100%
+      </Text>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginHorizontal: 3
+        }}
+      >
+        <Text
+          style={{
+            color: '#f5660b',
+            fontSize: 14,
+            fontFamily: 'PingFangSC-Medium'
+          }}
+        >
+          ¥{item.money}起
+        </Text>
+        <TouchableOpacity
+          onPress={() => {
+            handleSelect([...isSelect, item]);
+          }}
+        >
+          <Text
+            style={{
+              width: 23,
+              height: 23,
+              backgroundColor: '#008bff',
+              color: '#ffffff',
+              borderRadius: 16.5,
+              overflow: 'hidden',
+              textAlign: 'center',
+              lineHeight: 23
+            }}
+          >
+            ＋
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+
   const renderSideBar = ({ item }) => (
     <TouchableOpacity
       onPress={() => {
@@ -42,13 +129,14 @@ export default function Home({ navigation }) {
       </View>
     </TouchableOpacity>
   );
+
   const renderDish = ({ item }) => (
     <View
       style={{
         width: 275,
         height: 91,
         flexDirection: 'row',
-        marginBottom: 10
+        marginBottom: 15
       }}
     >
       <Image
@@ -126,6 +214,22 @@ export default function Home({ navigation }) {
       </View>
     </View>
   );
+
+  // const renderModel = () => (
+  //   <View style={{ marginTop: 22 }}>
+  //     <View>
+  //       <Text>Hello World!</Text>
+  //       <TouchableOpacity
+  //         onPress={() => {
+  //           setModalVisible(!modalVisible);
+  //         }}
+  //       >
+  //         <Text>Hide Modal</Text>
+  //       </TouchableOpacity>
+  //     </View>
+  //   </View>
+  // );
+
   const moneySummary = () =>
     isSelect.map(item => item.money).reduce((x, y) => Number(x) + Number(y));
 
@@ -133,6 +237,7 @@ export default function Home({ navigation }) {
 
   return (
     <View style={{ flex: 1 }}>
+      {/* {renderModel()} */}
       <ScrollView>
         <View>
           <View style={{ marginBottom: 30 }}>
@@ -211,6 +316,41 @@ export default function Home({ navigation }) {
             </View>
           </View>
         </View>
+        <View>
+          <View>
+            <Text
+              style={{
+                color: '#222222',
+                fontSize: 18,
+                fontFamily: 'PingFangSC-Semibold',
+                marginBottom: 5,
+                marginLeft: 10
+              }}
+            >
+              商家推荐
+            </Text>
+          </View>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              alignItems: 'center',
+              height: 200,
+              marginBottom: 15
+            }}
+          >
+            <FlatList
+              data={foodsData.filter(item => item.type === '热销')[0].foods}
+              keyExtractor={(item, index) =>
+                index === 0 ? '0' : String(item.id)
+              }
+              horizontal
+              style={{ flexDirection: 'row', paddingHorizontal: 10 }}
+              renderItem={renderRecommand}
+            />
+          </View>
+        </View>
+
         <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
           <View style={{ width: 95, marginRight: 10, overflow: 'hidden' }}>
             <FlatList

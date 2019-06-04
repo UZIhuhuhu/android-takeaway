@@ -108,15 +108,36 @@ const data = [
     id: 6,
     foods: [
       {
+        name: '冬瓜排骨汤',
+        money: '6',
+        id: 1
+      },
+      {
+        name: '番茄鸡蛋汤',
+        money: '4',
+        id: 2
+      },
+      {
+        name: '紫菜蛋花汤',
+        money: '4',
+        id: 3
+      }
+    ]
+  },
+  {
+    type: '主食',
+    id: 7,
+    foods: [
+      {
         name: '米饭',
         money: '1.5',
-        id: 1
+        id: 10
       }
     ]
   },
   {
     type: '饮料',
-    id: 7,
+    id: 8,
     foods: [
       {
         name: '可乐',
