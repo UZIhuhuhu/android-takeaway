@@ -29,7 +29,9 @@
     "react/forbid-prop-types": "off",
     "react/no-array-index-key": "off",
     "no-unused-expressions": "off",
-    "no-nested-ternary": "off"
+    "no-nested-ternary": "off",
+    "no-plusplus": "off",
+    "no-param-reassign": "off"
   },
   "plugins": ["prettier"],
   "globals": {

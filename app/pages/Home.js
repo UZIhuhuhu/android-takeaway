@@ -16,8 +16,86 @@ import foodsData from '../data';
 export default function Home({ navigation }) {
   const [isSelect, handleSelect] = useState([]);
   const [foodType, handleType] = useState('热销');
-
+  const [count, setCount] = useState({});
   const Width = Dimensions.get('screen').width;
+
+  const renderCommon = item => (
+    <View>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginHorizontal: 3
+        }}
+      >
+        <Text
+          style={{
+            color: '#f5660b',
+            fontSize: 14,
+            fontFamily: 'PingFangSC-Medium'
+          }}
+        >
+          ¥{item.money}起
+        </Text>
+        {item.count !== 0 ? (
+          <TouchableOpacity
+            onPress={() => {
+              item.count--;
+              handleSelect([
+                ...isSelect
+                  .filter(foodsItem => foodsItem.name === item.name)
+                  .slice(1),
+                ...isSelect.filter(foodsItem => foodsItem.name !== item.name)
+              ]);
+            }}
+          >
+            <Text
+              style={{
+                width: 23,
+                height: 23,
+                backgroundColor: '#2c9dfb',
+                color: '#ffffff',
+                borderRadius: 16.5,
+                overflow: 'hidden',
+                textAlign: 'center',
+                lineHeight: 23
+              }}
+            >
+              －
+            </Text>
+          </TouchableOpacity>
+        ) : null}
+
+        {item.count !== 0 ? <Text>{item.count}</Text> : null}
+        <TouchableOpacity
+          onPress={() => {
+            item.count++;
+            handleSelect([...isSelect, item]);
+            const result = {};
+            [...isSelect, item].forEach(x => {
+              result[x.name] = (result[x.name] || 0) + 1;
+            });
+            setCount(result);
+          }}
+        >
+          <Text
+            style={{
+              width: 23,
+              height: 23,
+              backgroundColor: '#2c9dfb',
+              color: '#ffffff',
+              borderRadius: 16.5,
+              overflow: 'hidden',
+              textAlign: 'center',
+              lineHeight: 23
+            }}
+          >
+            ＋
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
 
   const renderRecommand = ({ item }) => (
     <View
@@ -64,43 +142,7 @@ export default function Home({ navigation }) {
       >
         月售25 好评率100%
       </Text>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          marginHorizontal: 3
-        }}
-      >
-        <Text
-          style={{
-            color: '#f5660b',
-            fontSize: 14,
-            fontFamily: 'PingFangSC-Medium'
-          }}
-        >
-          ¥{item.money}起
-        </Text>
-        <TouchableOpacity
-          onPress={() => {
-            handleSelect([...isSelect, item]);
-          }}
-        >
-          <Text
-            style={{
-              width: 23,
-              height: 23,
-              backgroundColor: '#2c9dfb',
-              color: '#ffffff',
-              borderRadius: 16.5,
-              overflow: 'hidden',
-              textAlign: 'center',
-              lineHeight: 23
-            }}
-          >
-            ＋
-          </Text>
-        </TouchableOpacity>
-      </View>
+      {renderCommon(item)}
     </View>
   );
 
@@ -181,37 +223,7 @@ export default function Home({ navigation }) {
         >
           月售25 好评率100%
         </Text>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Text
-            style={{
-              color: '#f5660b',
-              fontSize: 14,
-              fontFamily: 'PingFangSC-Medium'
-            }}
-          >
-            ¥{item.money}起
-          </Text>
-          <TouchableOpacity
-            onPress={() => {
-              handleSelect([...isSelect, item]);
-            }}
-          >
-            <Text
-              style={{
-                width: 23,
-                height: 23,
-                backgroundColor: '#2c9dfb',
-                color: '#ffffff',
-                borderRadius: 16.5,
-                overflow: 'hidden',
-                textAlign: 'center',
-                lineHeight: 23
-              }}
-            >
-              ＋
-            </Text>
-          </TouchableOpacity>
-        </View>
+        {renderCommon(item)}
       </View>
     </View>
   );
@@ -406,7 +418,8 @@ export default function Home({ navigation }) {
               if (canIPayMoney()) {
                 navigation.navigate('Result', {
                   selectFoods: isSelect,
-                  summary: moneySummary()
+                  summary: moneySummary(),
+                  count
                 });
               } else {
                 Alert.alert('满20起送哦');

@@ -24,24 +24,28 @@ const data = [
     id: 2,
     foods: [
       {
+        count: 0,
         name: '酸辣土豆丝',
         money: '7',
         id: 1,
         img: suanLaTuDouSi
       },
       {
+        count: 0,
         name: '香茄子',
         money: '7',
         id: 2,
         img: xianQieZi
       },
       {
+        count: 0,
         name: '宫保鸡丁',
         money: '9',
         id: 3,
         img: jiDing
       },
       {
+        count: 0,
         name: '酸菜鱼',
         money: '14',
         id: 4,
@@ -54,21 +58,24 @@ const data = [
     id: 3,
     foods: [
       {
+        count: 0,
         name: '拍黄瓜',
         money: '4',
-        id: 1,
+        id: 11,
         img: huangGua
       },
       {
+        count: 0,
         name: '凉拌金针菇',
         money: '4',
-        id: 2,
+        id: 12,
         img: Gu
       },
       {
+        count: 0,
         name: '凉拌海带丝',
         money: '4',
-        id: 3,
+        id: 13,
         img: haiDai
       }
     ]
@@ -78,27 +85,31 @@ const data = [
     id: 4,
     foods: [
       {
+        count: 0,
         name: '鱼香肉丝',
         money: '9',
-        id: 1,
+        id: 21,
         img: rouSi
       },
       {
+        count: 0,
         name: '宫保鸡丁',
         money: '9',
-        id: 2,
+        id: 22,
         img: jiDing
       },
       {
+        count: 0,
         name: '鱼香茄子',
         money: '13',
-        id: 3,
+        id: 23,
         img: xianQieZi
       },
       {
+        count: 0,
         name: '酸辣土豆丝',
         money: '7',
-        id: 4,
+        id: 24,
         img: suanLaTuDouSi
       }
     ]
@@ -108,33 +119,38 @@ const data = [
     id: 5,
     foods: [
       {
+        count: 0,
         name: '麻婆豆腐',
         money: '6',
-        id: 1,
+        id: 31,
         img: douFu
       },
       {
+        count: 0,
         name: '小鸡炖蘑菇',
         money: '13',
-        id: 2,
+        id: 32,
         img: moGu
       },
       {
+        count: 0,
         name: '酸菜鱼',
         money: '14',
-        id: 3,
+        id: 33,
         img: suanCaiYu
       },
       {
+        count: 0,
         name: '可乐鸡翅',
         money: '9',
-        id: 4,
+        id: 34,
         img: jiChi
       },
       {
+        count: 0,
         name: '红烧狮子头',
         money: '6',
-        id: 5,
+        id: 35,
         img: shiZiTou
       }
     ]
@@ -144,21 +160,24 @@ const data = [
     id: 6,
     foods: [
       {
+        count: 0,
         name: '冬瓜排骨汤',
         money: '6',
-        id: 1,
+        id: 41,
         img: dongGua
       },
       {
+        count: 0,
         name: '番茄鸡蛋汤',
         money: '4',
-        id: 2,
+        id: 42,
         img: fanQie
       },
       {
+        count: 0,
         name: '紫菜蛋花汤',
         money: '4',
-        id: 3,
+        id: 43,
         img: ziCai
       }
     ]
@@ -168,9 +187,10 @@ const data = [
     id: 7,
     foods: [
       {
+        count: 0,
         name: '米饭',
         money: '1.5',
-        id: 10,
+        id: 50,
         img: miFan
       }
     ]
@@ -180,21 +200,24 @@ const data = [
     id: 8,
     foods: [
       {
+        count: 0,
         name: '可乐',
         money: '3',
-        id: 1,
+        id: 61,
         img: keLe
       },
       {
+        count: 0,
         name: '雪碧',
         money: '3',
-        id: 2,
+        id: 62,
         img: xueBi
       },
       {
+        count: 0,
         name: '怡宝',
         money: '2',
-        id: 3,
+        id: 63,
         img: shui
       }
     ]

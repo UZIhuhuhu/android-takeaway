@@ -30,15 +30,26 @@ export default function Result({ navigation }) {
         <View style={{ marginRight: 10 }}>
           <Image style={{ width: 38, height: 38 }} source={item.img} />
         </View>
-        <View>
+        <View style={{ width: 100 }}>
           <Text>{item.name}</Text>
         </View>
+      </View>
+      <View>
+        <Text>x{item.count}</Text>
       </View>
       <View style={{ marginRight: 16 }}>
         <Text>¥{item.money}</Text>
       </View>
     </View>
   );
+
+  const displayData = () => [
+    ...new Set([
+      ...navigation
+        .getParam('selectFoods')
+        .map(food => navigation.getParam('selectFoods')[food.id])
+    ])
+  ];
   return (
     <View
       style={{
@@ -121,7 +132,7 @@ export default function Result({ navigation }) {
           }}
         >
           <FlatList
-            data={navigation.getParam('selectFoods')}
+            data={displayData()}
             renderItem={renderResult}
             keyExtractor={(item, index) =>
               index === 0 ? '0' : String(item.id)
