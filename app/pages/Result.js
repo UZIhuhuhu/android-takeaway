@@ -7,7 +7,6 @@ import {
   Dimensions,
   TouchableOpacity
 } from 'react-native';
-import Avatar from '../assets/avatar.png';
 
 export default function Result({ navigation }) {
   const Width = Dimensions.get('screen').width;
@@ -29,7 +28,7 @@ export default function Result({ navigation }) {
     >
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <View style={{ marginRight: 10 }}>
-          <Image style={{ width: 38, height: 38 }} source={Avatar} />
+          <Image style={{ width: 38, height: 38 }} source={item.img} />
         </View>
         <View>
           <Text>{item.name}</Text>
@@ -52,7 +51,8 @@ export default function Result({ navigation }) {
       <View
         style={{
           height: 227,
-          backgroundColor: '#2c9dfb'
+          backgroundColor: '#2c9dfb',
+          marginBottom: 10
         }}
       >
         <Text
@@ -60,10 +60,21 @@ export default function Result({ navigation }) {
             fontFamily: 'PingFangSC-Semibold',
             fontSize: 18,
             color: '#ffffff',
-            marginLeft: 20
+            marginLeft: 15,
+            fontWeight: '700'
           }}
         >
-          选择收货地址
+          南京邮电大学大学生活动中心
+        </Text>
+        <Text
+          style={{
+            fontFamily: 'PingFangSC-Semibold',
+            fontSize: 13,
+            color: '#ffffff',
+            marginLeft: 15
+          }}
+        >
+          黄兴源 18851234567
         </Text>
       </View>
       <View

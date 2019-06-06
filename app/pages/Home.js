@@ -6,6 +6,7 @@ import {
   Alert,
   ScrollView,
   FlatList,
+  StatusBar,
   Dimensions,
   TouchableOpacity
 } from 'react-native';
@@ -34,7 +35,7 @@ export default function Home({ navigation }) {
     >
       <View style={{ marginBottom: 10 }}>
         <Image
-          source={Avatar}
+          source={item.img}
           style={{
             width: 110,
             height: 105,
@@ -88,7 +89,7 @@ export default function Home({ navigation }) {
             style={{
               width: 23,
               height: 23,
-              backgroundColor: '#008bff',
+              backgroundColor: '#2c9dfb',
               color: '#ffffff',
               borderRadius: 16.5,
               overflow: 'hidden',
@@ -140,7 +141,7 @@ export default function Home({ navigation }) {
       }}
     >
       <Image
-        source={Avatar}
+        source={item.img}
         style={{
           width: 93,
           height: 93,
@@ -199,7 +200,7 @@ export default function Home({ navigation }) {
               style={{
                 width: 23,
                 height: 23,
-                backgroundColor: '#008bff',
+                backgroundColor: '#2c9dfb',
                 color: '#ffffff',
                 borderRadius: 16.5,
                 overflow: 'hidden',
@@ -237,13 +238,14 @@ export default function Home({ navigation }) {
 
   return (
     <View style={{ flex: 1 }}>
+      <StatusBar barStyle="dark-content" backgroundColor="#2c9dfb" />
       {/* {renderModel()} */}
       <ScrollView>
         <View>
           <View style={{ marginBottom: 30 }}>
             <View
               style={{
-                backgroundColor: '#008bff',
+                backgroundColor: '#2c9dfb',
                 height: 58,
                 flexDirection: 'row',
                 justifyContent: 'center'
@@ -393,7 +395,7 @@ export default function Home({ navigation }) {
         <View
           style={{
             width: Width - 255,
-            backgroundColor: canIPayMoney() ? '#008bff' : '#b6b6b6',
+            backgroundColor: canIPayMoney() ? '#2c9dfb' : '#b6b6b6',
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center'

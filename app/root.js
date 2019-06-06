@@ -6,7 +6,7 @@ import Result from './pages/Result';
 
 const defaultNavigationOptions = {
   headerStyle: {
-    backgroundColor: '#008bff',
+    backgroundColor: '#2c9dfb',
     elevation: 0
   },
   headerTitleStyle: {
