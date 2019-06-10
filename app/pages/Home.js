@@ -10,6 +10,7 @@ import {
   Dimensions,
   TouchableOpacity
 } from 'react-native';
+import Dialog, { DialogContent } from 'react-native-popup-dialog';
 import Avatar from '../assets/avatar.png';
 import foodsData from '../data';
 
@@ -17,6 +18,7 @@ export default function Home({ navigation }) {
   const [isSelect, handleSelect] = useState([]);
   const [foodType, handleType] = useState('热销');
   const [count, setCount] = useState({});
+  const [dialogStatus, setDialog] = useState(false);
   const Width = Dimensions.get('screen').width;
 
   const renderCommon = item => (
@@ -69,6 +71,7 @@ export default function Home({ navigation }) {
         {item.count !== 0 ? <Text>{item.count}</Text> : null}
         <TouchableOpacity
           onPress={() => {
+            setDialog(true);
             item.count++;
             handleSelect([...isSelect, item]);
             const result = {};
@@ -211,7 +214,7 @@ export default function Home({ navigation }) {
             marginBottom: 3
           }}
         >
-          主要原料：鱼肉
+          主要原料： {item.source ? item.source : '蔬菜'}
         </Text>
         <Text
           style={{
@@ -228,20 +231,134 @@ export default function Home({ navigation }) {
     </View>
   );
 
-  // const renderModel = () => (
-  //   <View style={{ marginTop: 22 }}>
-  //     <View>
-  //       <Text>Hello World!</Text>
-  //       <TouchableOpacity
-  //         onPress={() => {
-  //           setModalVisible(!modalVisible);
-  //         }}
-  //       >
-  //         <Text>Hide Modal</Text>
-  //       </TouchableOpacity>
-  //     </View>
-  //   </View>
-  // );
+  const renderDialog = item => (
+    <Dialog visible={dialogStatus}>
+      <DialogContent>
+        <View
+          style={{
+            width: 275,
+            height: 91,
+            flexDirection: 'row',
+            marginBottom: 15,
+            marginTop: 15
+          }}
+        >
+          <Image
+            source={item.img}
+            style={{
+              width: 93,
+              height: 93,
+              marginRight: 8,
+              borderRadius: 4,
+              overflow: 'hidden'
+            }}
+          />
+          <View style={{ width: 173 }}>
+            <Text
+              style={{
+                fontFamily: 'PingFangSC-Semibold',
+                fontSize: 14,
+                marginBottom: 3,
+                color: '#222222'
+              }}
+            >
+              {item.name}
+            </Text>
+            <Text
+              style={{
+                color: '#b6b6b6',
+                fontSize: 11,
+                fontFamily: 'PingFangSC-Semibold',
+                marginBottom: 3
+              }}
+            >
+              主要原料： {item.source ? item.source : '蔬菜'}
+            </Text>
+            <Text
+              style={{
+                color: '#b6b6b6',
+                fontSize: 11,
+                fontFamily: 'PingFangSC-Semibold',
+                marginBottom: 18
+              }}
+            >
+              月售25 好评率100%
+            </Text>
+          </View>
+        </View>
+        <View style={{ marginBottom: 35 }}>
+          <Text style={{ marginBottom: 10 }}>辣度</Text>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+            <Text
+              style={{
+                marginRight: 15,
+                backgroundColor: '#f0eeee',
+                width: 80,
+                textAlign: 'center',
+                color: '#878787',
+                height: 25,
+                lineHeight: 25,
+                fontFamily: 'PingFangSC-Semibold',
+                fontSize: 12
+              }}
+            >
+              微辣
+            </Text>
+            <Text
+              style={{
+                marginRight: 15,
+                backgroundColor: '#f0eeee',
+                width: 80,
+                textAlign: 'center',
+                color: '#878787',
+                height: 25,
+                lineHeight: 25,
+                fontFamily: 'PingFangSC-Semibold',
+                fontSize: 12
+              }}
+            >
+              中辣
+            </Text>
+            <Text
+              style={{
+                marginRight: 15,
+                backgroundColor: '#f0eeee',
+                width: 80,
+                textAlign: 'center',
+                color: '#878787',
+                height: 25,
+                lineHeight: 25,
+                fontFamily: 'PingFangSC-Semibold',
+                fontSize: 12
+              }}
+            >
+              超辣
+            </Text>
+          </View>
+        </View>
+        <View>
+          <TouchableOpacity
+            onPress={() => {
+              setDialog(false);
+            }}
+          >
+            <Text
+              style={{
+                width: '100%',
+                backgroundColor: '#2c9dfb',
+                color: '#ffffff',
+                textAlign: 'center',
+                height: 35,
+                lineHeight: 35
+              }}
+            >
+              选好了
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </DialogContent>
+    </Dialog>
+  );
 
   const moneySummary = () =>
     isSelect.map(item => item.money).reduce((x, y) => Number(x) + Number(y));
@@ -251,7 +368,7 @@ export default function Home({ navigation }) {
   return (
     <View style={{ flex: 1 }}>
       <StatusBar barStyle="dark-content" backgroundColor="#2c9dfb" />
-      {/* {renderModel()} */}
+      {dialogStatus ? renderDialog(isSelect[0]) : null}
       <ScrollView>
         <View>
           <View style={{ marginBottom: 30 }}>
@@ -350,7 +467,8 @@ export default function Home({ navigation }) {
               flexDirection: 'row',
               alignItems: 'center',
               height: 200,
-              marginBottom: 15
+              marginBottom: 15,
+              paddingRight: 10
             }}
           >
             <FlatList
@@ -378,10 +496,10 @@ export default function Home({ navigation }) {
           </View>
           <View>
             <FlatList
+              data={foodsData.filter(item => item.type === foodType)[0].foods}
               keyExtractor={(item, index) =>
                 index === 0 ? '0' : String(item.id)
               }
-              data={foodsData.filter(item => item.type === foodType)[0].foods}
               renderItem={renderDish}
             />
           </View>

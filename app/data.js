@@ -28,21 +28,24 @@ const data = [
         name: '酸辣土豆丝',
         money: '7',
         id: 1,
-        img: suanLaTuDouSi
+        img: suanLaTuDouSi,
+        source: '土豆'
       },
       {
         count: 0,
         name: '香茄子',
         money: '7',
         id: 2,
-        img: xianQieZi
+        img: xianQieZi,
+        source: '茄子'
       },
       {
         count: 0,
         name: '宫保鸡丁',
         money: '9',
         id: 3,
-        img: jiDing
+        img: jiDing,
+        source: '花生，鸡肉，胡萝卜'
       },
       {
         count: 0,
@@ -62,21 +65,24 @@ const data = [
         name: '拍黄瓜',
         money: '4',
         id: 11,
-        img: huangGua
+        img: huangGua,
+        source: '黄瓜'
       },
       {
         count: 0,
         name: '凉拌金针菇',
         money: '4',
         id: 12,
-        img: Gu
+        img: Gu,
+        souce: '金针菇'
       },
       {
         count: 0,
         name: '凉拌海带丝',
         money: '4',
         id: 13,
-        img: haiDai
+        img: haiDai,
+        source: '海带'
       }
     ]
   },
@@ -89,28 +95,32 @@ const data = [
         name: '鱼香肉丝',
         money: '9',
         id: 21,
-        img: rouSi
+        img: rouSi,
+        source: '里脊，木耳，冬笋'
       },
       {
         count: 0,
         name: '宫保鸡丁',
         money: '9',
         id: 22,
-        img: jiDing
+        img: jiDing,
+        source: '花生，鸡肉，胡萝卜'
       },
       {
         count: 0,
         name: '鱼香茄子',
         money: '13',
         id: 23,
-        img: xianQieZi
+        img: xianQieZi,
+        source: '茄子'
       },
       {
         count: 0,
         name: '酸辣土豆丝',
         money: '7',
         id: 24,
-        img: suanLaTuDouSi
+        img: suanLaTuDouSi,
+        source: '土豆'
       }
     ]
   },
@@ -123,35 +133,40 @@ const data = [
         name: '麻婆豆腐',
         money: '6',
         id: 31,
-        img: douFu
+        img: douFu,
+        source: '豆腐'
       },
       {
         count: 0,
         name: '小鸡炖蘑菇',
         money: '13',
         id: 32,
-        img: moGu
+        img: moGu,
+        source: '鸡肉，蘑菇'
       },
       {
         count: 0,
         name: '酸菜鱼',
         money: '14',
         id: 33,
-        img: suanCaiYu
+        img: suanCaiYu,
+        source: '鱼肉，酸菜'
       },
       {
         count: 0,
         name: '可乐鸡翅',
         money: '9',
         id: 34,
-        img: jiChi
+        img: jiChi,
+        source: '可乐，鸡翅'
       },
       {
         count: 0,
         name: '红烧狮子头',
         money: '6',
         id: 35,
-        img: shiZiTou
+        img: shiZiTou,
+        source: '肉丸'
       }
     ]
   },
@@ -164,21 +179,24 @@ const data = [
         name: '冬瓜排骨汤',
         money: '6',
         id: 41,
-        img: dongGua
+        img: dongGua,
+        source: '冬瓜，排骨'
       },
       {
         count: 0,
         name: '番茄鸡蛋汤',
         money: '4',
         id: 42,
-        img: fanQie
+        img: fanQie,
+        soruce: '番茄，鸡蛋'
       },
       {
         count: 0,
         name: '紫菜蛋花汤',
         money: '4',
         id: 43,
-        img: ziCai
+        img: ziCai,
+        source: '紫菜，鸡蛋'
       }
     ]
   },
