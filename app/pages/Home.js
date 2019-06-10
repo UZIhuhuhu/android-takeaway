@@ -10,15 +10,30 @@ import {
   Dimensions,
   TouchableOpacity
 } from 'react-native';
-import Dialog, { DialogContent } from 'react-native-popup-dialog';
+import Dialog, {
+  DialogContent,
+  SlideAnimation
+} from 'react-native-popup-dialog';
 import Avatar from '../assets/avatar.png';
 import foodsData from '../data';
 
+const spicyData = [
+  {
+    name: '微辣',
+    id: 1
+  },
+  {
+    name: '中辣',
+    id: 2
+  },
+  { name: '超辣', id: 3 }
+];
 export default function Home({ navigation }) {
   const [isSelect, handleSelect] = useState([]);
   const [foodType, handleType] = useState('热销');
   const [count, setCount] = useState({});
   const [dialogStatus, setDialog] = useState(false);
+  const [spicyTag, setSpicy] = useState(1);
   const Width = Dimensions.get('screen').width;
 
   const renderCommon = item => (
@@ -231,8 +246,42 @@ export default function Home({ navigation }) {
     </View>
   );
 
+  const renderTag = ({ item }) => (
+    <TouchableOpacity
+      onPress={() => {
+        setSpicy(item.id);
+      }}
+    >
+      <Text
+        style={{
+          marginRight: 15,
+          backgroundColor: item.id === spicyTag ? '#e5effd' : '#f0eeee',
+          width: 80,
+          textAlign: 'center',
+          color: item.id === spicyTag ? '#359bf0' : '#878787',
+          height: 25,
+          lineHeight: 25,
+          fontFamily: 'PingFangSC-Semibold',
+          fontSize: 12
+        }}
+      >
+        {item.name}
+      </Text>
+    </TouchableOpacity>
+  );
+
   const renderDialog = item => (
-    <Dialog visible={dialogStatus}>
+    <Dialog
+      dialogAnimation={
+        new SlideAnimation({
+          slideFrom: 'bottom'
+        })
+      }
+      visible={dialogStatus}
+      onTouchOutside={() => {
+        setDialog(!dialogStatus);
+      }}
+    >
       <DialogContent>
         <View
           style={{
@@ -289,51 +338,14 @@ export default function Home({ navigation }) {
         <View style={{ marginBottom: 35 }}>
           <Text style={{ marginBottom: 10 }}>辣度</Text>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-            <Text
-              style={{
-                marginRight: 15,
-                backgroundColor: '#f0eeee',
-                width: 80,
-                textAlign: 'center',
-                color: '#878787',
-                height: 25,
-                lineHeight: 25,
-                fontFamily: 'PingFangSC-Semibold',
-                fontSize: 12
-              }}
-            >
-              微辣
-            </Text>
-            <Text
-              style={{
-                marginRight: 15,
-                backgroundColor: '#f0eeee',
-                width: 80,
-                textAlign: 'center',
-                color: '#878787',
-                height: 25,
-                lineHeight: 25,
-                fontFamily: 'PingFangSC-Semibold',
-                fontSize: 12
-              }}
-            >
-              中辣
-            </Text>
-            <Text
-              style={{
-                marginRight: 15,
-                backgroundColor: '#f0eeee',
-                width: 80,
-                textAlign: 'center',
-                color: '#878787',
-                height: 25,
-                lineHeight: 25,
-                fontFamily: 'PingFangSC-Semibold',
-                fontSize: 12
-              }}
-            >
-              超辣
-            </Text>
+            <FlatList
+              data={spicyData}
+              horizontal
+              renderItem={renderTag}
+              keyExtractor={(nextItem, index) =>
+                index === 0 ? '0' : String(nextItem.id)
+              }
+            />
           </View>
         </View>
         <View>
@@ -364,7 +376,7 @@ export default function Home({ navigation }) {
     isSelect.map(item => item.money).reduce((x, y) => Number(x) + Number(y));
 
   const canIPayMoney = () => !!(isSelect.length > 0 && moneySummary() >= 20);
-
+  console.log(dialogStatus);
   return (
     <View style={{ flex: 1 }}>
       <StatusBar barStyle="dark-content" backgroundColor="#2c9dfb" />
