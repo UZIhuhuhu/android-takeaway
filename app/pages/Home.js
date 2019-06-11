@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Image,
@@ -35,6 +35,10 @@ export default function Home({ navigation }) {
   const [dialogStatus, setDialog] = useState(false);
   const [spicyTag, setSpicy] = useState(1);
   const Width = Dimensions.get('screen').width;
+
+  useEffect(() => {
+    console.log(dialogStatus);
+  });
 
   const renderCommon = item => (
     <View>
@@ -249,6 +253,7 @@ export default function Home({ navigation }) {
   const renderTag = ({ item }) => (
     <TouchableOpacity
       onPress={() => {
+        console.log(item);
         setSpicy(item.id);
       }}
     >
@@ -376,11 +381,10 @@ export default function Home({ navigation }) {
     isSelect.map(item => item.money).reduce((x, y) => Number(x) + Number(y));
 
   const canIPayMoney = () => !!(isSelect.length > 0 && moneySummary() >= 20);
-  console.log(dialogStatus);
   return (
     <View style={{ flex: 1 }}>
       <StatusBar barStyle="dark-content" backgroundColor="#2c9dfb" />
-      {dialogStatus ? renderDialog(isSelect[0]) : null}
+      {renderDialog(isSelect[0] || foodsData[0].foods[0])}
       <ScrollView>
         <View>
           <View style={{ marginBottom: 30 }}>
