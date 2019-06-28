@@ -17,8 +17,56 @@ import miFan from './assets/foods/米饭.jpg';
 import shui from './assets/foods/水.jpg';
 import keLe from './assets/foods/可乐.jpg';
 import xueBi from './assets/foods/雪碧.jpg';
+import tc1 from './assets/foods/tc1.jpg';
+import tc2 from './assets/foods/tc2.jpg';
 
 const data = [
+  {
+    type: '推荐',
+    id: 99,
+    foods: [
+      {
+        count: 0,
+        name: '红酒牛肉饭',
+        money: 13,
+        id: 121,
+        img: tc2,
+        source: '牛肉、红酒、米饭'
+      },
+      {
+        count: 0,
+        name: '酸菜鱼',
+        money: '14',
+        id: 33,
+        img: suanCaiYu,
+        source: '鱼肉，酸菜'
+      },
+      {
+        count: 0,
+        name: '可乐鸡翅',
+        money: '9',
+        id: 34,
+        img: jiChi,
+        source: '可乐，鸡翅'
+      },
+      {
+        count: 0,
+        name: '冬瓜排骨汤',
+        money: '6',
+        id: 41,
+        img: dongGua,
+        source: '冬瓜，排骨'
+      },
+      {
+        count: 0,
+        name: '番茄鸡蛋汤',
+        money: '4',
+        id: 42,
+        img: fanQie,
+        soruce: '番茄，鸡蛋'
+      }
+    ]
+  },
   {
     type: '热销',
     id: 2,
@@ -237,6 +285,28 @@ const data = [
         money: '2',
         id: 63,
         img: shui
+      }
+    ]
+  },
+  {
+    type: '套餐',
+    id: 80,
+    foods: [
+      {
+        count: 0,
+        name: '卤肉饭',
+        money: 13,
+        id: 125,
+        img: tc1,
+        soruce: '猪肉、青菜、鸡蛋、米饭'
+      },
+      {
+        count: 0,
+        name: '红酒牛肉饭',
+        money: 13,
+        id: 121,
+        img: tc2,
+        source: '牛肉、红酒、米饭'
       }
     ]
   }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   View,
   Image,
@@ -28,19 +28,36 @@ const spicyData = [
   },
   { name: '超辣', id: 3 }
 ];
-export default function Home({ navigation }) {
-  const [isSelect, handleSelect] = useState([]);
-  const [foodType, handleType] = useState('热销');
-  const [count, setCount] = useState({});
-  const [dialogStatus, setDialog] = useState(false);
-  const [spicyTag, setSpicy] = useState(1);
-  const Width = Dimensions.get('screen').width;
 
-  useEffect(() => {
-    console.log(dialogStatus);
-  });
+const Width = Dimensions.get('screen').width;
+console.log(Width);
 
-  const renderCommon = item => (
+export default class Home extends React.Component {
+  state = {
+    isSelect: [],
+    foodType: '热销',
+    count: {},
+    dialogStatus: false,
+    spicyTag: 0
+  };
+
+  handleSelect = a => {
+    this.setState({ isSelect: a });
+  };
+
+  handleType = a => {
+    this.setState({ foodType: a });
+  };
+
+  setCount = a => {
+    this.setState({ count: a });
+  };
+
+  setDialog = a => {
+    this.setState({ dialogStatus: a });
+  };
+
+  renderCommon = item => (
     <View>
       <View
         style={{
@@ -62,11 +79,13 @@ export default function Home({ navigation }) {
           <TouchableOpacity
             onPress={() => {
               item.count--;
-              handleSelect([
-                ...isSelect
+              this.handleSelect([
+                ...this.state.isSelect
                   .filter(foodsItem => foodsItem.name === item.name)
                   .slice(1),
-                ...isSelect.filter(foodsItem => foodsItem.name !== item.name)
+                ...this.state.isSelect.filter(
+                  foodsItem => foodsItem.name !== item.name
+                )
               ]);
             }}
           >
@@ -90,14 +109,14 @@ export default function Home({ navigation }) {
         {item.count !== 0 ? <Text>{item.count}</Text> : null}
         <TouchableOpacity
           onPress={() => {
-            setDialog(true);
+            this.setDialog(true);
             item.count++;
-            handleSelect([...isSelect, item]);
+            this.handleSelect([...this.state.isSelect, item]);
             const result = {};
-            [...isSelect, item].forEach(x => {
+            [...this.state.isSelect, item].forEach(x => {
               result[x.name] = (result[x.name] || 0) + 1;
             });
-            setCount(result);
+            this.setCount(result);
           }}
         >
           <Text
@@ -119,7 +138,7 @@ export default function Home({ navigation }) {
     </View>
   );
 
-  const renderRecommand = ({ item }) => (
+  renderRecommand = ({ item }) => (
     <View
       elevation={5}
       style={{
@@ -164,21 +183,22 @@ export default function Home({ navigation }) {
       >
         月售25 好评率100%
       </Text>
-      {renderCommon(item)}
+      {this.renderCommon(item)}
     </View>
   );
 
-  const renderSideBar = ({ item }) => (
+  renderSideBar = ({ item }) => (
     <TouchableOpacity
       onPress={() => {
-        handleType(item.type);
+        this.handleType(item.type);
       }}
     >
       <View
         style={{
           width: 95,
           height: 48,
-          backgroundColor: foodType === item.type ? '#ffffff' : '#f0eeee',
+          backgroundColor:
+            this.state.foodType === item.type ? '#ffffff' : '#f0eeee',
           flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center'
@@ -186,7 +206,7 @@ export default function Home({ navigation }) {
       >
         <Text
           style={{
-            color: foodType === item.type ? '#000000' : '#878787'
+            color: this.state.foodType === item.type ? '#000000' : '#878787'
           }}
         >
           {item.type}
@@ -195,10 +215,10 @@ export default function Home({ navigation }) {
     </TouchableOpacity>
   );
 
-  const renderDish = ({ item }) => (
+  renderDish = ({ item }) => (
     <View
       style={{
-        width: 275,
+        width: Width - 140,
         height: 91,
         flexDirection: 'row',
         marginBottom: 15
@@ -214,7 +234,7 @@ export default function Home({ navigation }) {
           overflow: 'hidden'
         }}
       />
-      <View style={{ width: 173 }}>
+      <View style={{ width: Width - 220 }}>
         <Text
           style={{
             fontFamily: 'PingFangSC-Semibold',
@@ -245,46 +265,51 @@ export default function Home({ navigation }) {
         >
           月售25 好评率100%
         </Text>
-        {renderCommon(item)}
+        {this.renderCommon(item)}
       </View>
     </View>
   );
 
-  const renderTag = ({ item }) => (
+  // renderTag = ({ item }) => <Tag {...item} />;
+  setSpicy = a => {
+    this.setState({ spicyTag: a });
+  };
+
+  renderTag = item => (
     <TouchableOpacity
       onPress={() => {
-        console.log(item);
-        setSpicy(item.id);
+        this.setSpicy(item.index);
       }}
     >
       <Text
         style={{
           marginRight: 15,
-          backgroundColor: item.id === spicyTag ? '#e5effd' : '#f0eeee',
+          backgroundColor:
+            item.index === this.state.spicyTag ? '#e5effd' : '#f0eeee',
           width: 80,
           textAlign: 'center',
-          color: item.id === spicyTag ? '#359bf0' : '#878787',
+          color: item.index === this.state.spicyTag ? '#359bf0' : '#878787',
           height: 25,
           lineHeight: 25,
           fontFamily: 'PingFangSC-Semibold',
           fontSize: 12
         }}
       >
-        {item.name}
+        {item.item.name}
       </Text>
     </TouchableOpacity>
   );
 
-  const renderDialog = item => (
+  renderDialog = item => (
     <Dialog
       dialogAnimation={
         new SlideAnimation({
           slideFrom: 'bottom'
         })
       }
-      visible={dialogStatus}
+      visible={this.state.dialogStatus}
       onTouchOutside={() => {
-        setDialog(!dialogStatus);
+        this.setDialog(!this.state.dialogStatus);
       }}
     >
       <DialogContent>
@@ -345,8 +370,9 @@ export default function Home({ navigation }) {
           <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
             <FlatList
               data={spicyData}
+              extraData={this.state}
               horizontal
-              renderItem={renderTag}
+              renderItem={this.renderTag}
               keyExtractor={(nextItem, index) =>
                 index === 0 ? '0' : String(nextItem.id)
               }
@@ -356,7 +382,7 @@ export default function Home({ navigation }) {
         <View>
           <TouchableOpacity
             onPress={() => {
-              setDialog(false);
+              this.setDialog(false);
             }}
           >
             <Text
@@ -377,201 +403,218 @@ export default function Home({ navigation }) {
     </Dialog>
   );
 
-  const moneySummary = () =>
-    isSelect.map(item => item.money).reduce((x, y) => Number(x) + Number(y));
+  moneySummary = () =>
+    this.state.isSelect
+      .map(item => item.money)
+      .reduce((x, y) => Number(x) + Number(y));
 
-  const canIPayMoney = () => !!(isSelect.length > 0 && moneySummary() >= 20);
-  return (
-    <View style={{ flex: 1 }}>
-      <StatusBar barStyle="dark-content" backgroundColor="#2c9dfb" />
-      {renderDialog(isSelect[0] || foodsData[0].foods[0])}
-      <ScrollView>
-        <View>
-          <View style={{ marginBottom: 30 }}>
+  canIPayMoney = () =>
+    !!(this.state.isSelect.length > 0 && this.moneySummary() >= 20);
+
+  render() {
+    const { navigation } = this.props;
+    const { isSelect, foodType, count } = this.state;
+    return (
+      <View style={{ flex: 1 }}>
+        <StatusBar barStyle="dark-content" backgroundColor="#2c9dfb" />
+        {this.renderDialog(isSelect[0] || foodsData[0].foods[0])}
+        <ScrollView>
+          <View>
+            <View style={{ marginBottom: 30 }}>
+              <View
+                style={{
+                  backgroundColor: '#2c9dfb',
+                  height: 58,
+                  flexDirection: 'row',
+                  justifyContent: 'center'
+                }}
+              >
+                <Image
+                  source={Avatar}
+                  style={{
+                    width: 72,
+                    height: 72,
+                    position: 'absolute',
+                    zIndex: 2,
+                    borderRadius: 4,
+                    overflow: 'hidden'
+                  }}
+                />
+              </View>
+            </View>
             <View
               style={{
-                backgroundColor: '#2c9dfb',
-                height: 58,
-                flexDirection: 'row',
-                justifyContent: 'center'
+                flexDirection: 'column',
+                alignItems: 'center',
+                marginBottom: 33
               }}
             >
-              <Image
-                source={Avatar}
+              <Text
                 style={{
-                  width: 72,
-                  height: 72,
-                  position: 'absolute',
-                  zIndex: 2,
-                  borderRadius: 4,
-                  overflow: 'hidden'
+                  color: '#222222',
+                  fontSize: 20,
+                  fontFamily: 'PingFangSC-Semibold',
+                  marginBottom: 3
                 }}
+              >
+                青柠檬便当
+              </Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  width: 250,
+                  justifyContent: 'space-around'
+                }}
+              >
+                <Text
+                  style={{
+                    color: '#7c7c7c',
+                    fontSize: 11,
+                    fontFamily: 'PingFangSC-Semibold'
+                  }}
+                >
+                  评价4.8
+                </Text>
+                <Text
+                  style={{
+                    color: '#7c7c7c',
+                    fontSize: 11,
+                    fontFamily: 'PingFangSC-Semibold'
+                  }}
+                >
+                  月售2535
+                </Text>
+                <Text
+                  style={{
+                    color: '#7c7c7c',
+                    fontSize: 11,
+                    fontFamily: 'PingFangSC-Semibold'
+                  }}
+                >
+                  商家配送约38分钟
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View>
+            <View>
+              <Text
+                style={{
+                  color: '#222222',
+                  fontSize: 18,
+                  fontFamily: 'PingFangSC-Semibold',
+                  marginBottom: 5,
+                  marginLeft: 10
+                }}
+              >
+                商家推荐
+              </Text>
+            </View>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+                alignItems: 'center',
+                height: 200,
+                marginBottom: 15,
+                paddingRight: 10
+              }}
+            >
+              <FlatList
+                data={foodsData.filter(item => item.type === '推荐')[0].foods}
+                extraData={this.state}
+                keyExtractor={(item, index) =>
+                  index === 0 ? '0' : String(item.id)
+                }
+                horizontal
+                style={{ flexDirection: 'row', paddingHorizontal: 10 }}
+                renderItem={this.renderRecommand}
               />
             </View>
           </View>
+
           <View
             style={{
-              flexDirection: 'column',
-              alignItems: 'center',
-              marginBottom: 33
+              width: Width,
+              flexDirection: 'row',
+              justifyContent: 'flex-start'
             }}
           >
-            <Text
-              style={{
-                color: '#222222',
-                fontSize: 20,
-                fontFamily: 'PingFangSC-Semibold',
-                marginBottom: 3
-              }}
-            >
-              青柠檬便当
-            </Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                width: 250,
-                justifyContent: 'space-around'
-              }}
-            >
-              <Text
-                style={{
-                  color: '#7c7c7c',
-                  fontSize: 11,
-                  fontFamily: 'PingFangSC-Semibold'
-                }}
-              >
-                评价4.8
-              </Text>
-              <Text
-                style={{
-                  color: '#7c7c7c',
-                  fontSize: 11,
-                  fontFamily: 'PingFangSC-Semibold'
-                }}
-              >
-                月售2535
-              </Text>
-              <Text
-                style={{
-                  color: '#7c7c7c',
-                  fontSize: 11,
-                  fontFamily: 'PingFangSC-Semibold'
-                }}
-              >
-                商家配送约38分钟
-              </Text>
+            <View style={{ width: 95, marginRight: 10, overflow: 'hidden' }}>
+              <FlatList
+                style={{ width: 95 }}
+                data={foodsData}
+                extraData={this.state}
+                keyExtractor={(item, index) =>
+                  index === 0 ? '0' : String(item.id)
+                }
+                renderItem={this.renderSideBar}
+              />
+            </View>
+            <View style={{ width: Width - 110 }}>
+              <FlatList
+                data={foodsData.filter(item => item.type === foodType)[0].foods}
+                extraData={this.state}
+                keyExtractor={(item, index) =>
+                  index === 0 ? '0' : String(item.id)
+                }
+                renderItem={this.renderDish}
+              />
             </View>
           </View>
-        </View>
-        <View>
-          <View>
+        </ScrollView>
+        <View style={{ height: 46, width: '100%', flexDirection: 'row' }}>
+          <View style={{ width: 255, backgroundColor: '#7c7c7c' }}>
             <Text
               style={{
-                color: '#222222',
-                fontSize: 18,
-                fontFamily: 'PingFangSC-Semibold',
-                marginBottom: 5,
-                marginLeft: 10
+                fontSize: 17,
+                color: isSelect.length === 0 ? '#b6b6b6' : '#ffffff',
+                lineHeight: 46,
+                marginLeft: 16
               }}
             >
-              商家推荐
+              {isSelect.length === 0
+                ? '未选购商品'
+                : isSelect.length === 1
+                ? `¥${isSelect[0].money}`
+                : `¥${this.moneySummary()}`}
             </Text>
           </View>
           <View
             style={{
-              flex: 1,
+              width: Width - 255,
+              backgroundColor: this.canIPayMoney() ? '#2c9dfb' : '#b6b6b6',
               flexDirection: 'row',
-              alignItems: 'center',
-              height: 200,
-              marginBottom: 15,
-              paddingRight: 10
+              justifyContent: 'center',
+              alignItems: 'center'
             }}
           >
-            <FlatList
-              data={foodsData.filter(item => item.type === '热销')[0].foods}
-              keyExtractor={(item, index) =>
-                index === 0 ? '0' : String(item.id)
-              }
-              horizontal
-              style={{ flexDirection: 'row', paddingHorizontal: 10 }}
-              renderItem={renderRecommand}
-            />
-          </View>
-        </View>
-
-        <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
-          <View style={{ width: 95, marginRight: 10, overflow: 'hidden' }}>
-            <FlatList
-              style={{ width: 95 }}
-              data={foodsData}
-              keyExtractor={(item, index) =>
-                index === 0 ? '0' : String(item.id)
-              }
-              renderItem={renderSideBar}
-            />
-          </View>
-          <View>
-            <FlatList
-              data={foodsData.filter(item => item.type === foodType)[0].foods}
-              keyExtractor={(item, index) =>
-                index === 0 ? '0' : String(item.id)
-              }
-              renderItem={renderDish}
-            />
-          </View>
-        </View>
-      </ScrollView>
-      <View style={{ height: 46, width: '100%', flexDirection: 'row' }}>
-        <View style={{ width: 255, backgroundColor: '#7c7c7c' }}>
-          <Text
-            style={{
-              fontSize: 17,
-              color: isSelect.length === 0 ? '#b6b6b6' : '#ffffff',
-              lineHeight: 46,
-              marginLeft: 16
-            }}
-          >
-            {isSelect.length === 0
-              ? '未选购商品'
-              : isSelect.length === 1
-              ? `¥${isSelect[0].money}`
-              : `¥${moneySummary()}`}
-          </Text>
-        </View>
-        <View
-          style={{
-            width: Width - 255,
-            backgroundColor: canIPayMoney() ? '#2c9dfb' : '#b6b6b6',
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => {
-              if (canIPayMoney()) {
-                navigation.navigate('Result', {
-                  selectFoods: isSelect,
-                  summary: moneySummary(),
-                  count
-                });
-              } else {
-                Alert.alert('满20起送哦');
-              }
-            }}
-          >
-            <Text
-              style={{
-                color: '#f0eeee',
-                fontSize: 16,
-                fontFamily: 'PingFangSC-Semibold'
+            <TouchableOpacity
+              onPress={() => {
+                if (this.canIPayMoney()) {
+                  navigation.navigate('Result', {
+                    selectFoods: isSelect,
+                    summary: this.moneySummary(),
+                    count
+                  });
+                } else {
+                  Alert.alert('满20起送哦');
+                }
               }}
             >
-              {canIPayMoney() ? '去结算' : '¥20起送'}
-            </Text>
-          </TouchableOpacity>
+              <Text
+                style={{
+                  color: '#f0eeee',
+                  fontSize: 16,
+                  fontFamily: 'PingFangSC-Semibold'
+                }}
+              >
+                {this.canIPayMoney() ? '去结算' : '¥20起送'}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
-  );
+    );
+  }
 }
