@@ -44,7 +44,11 @@ export default class Result extends React.Component {
     ...new Set([
       ...this.props.navigation
         .getParam('selectFoods')
-        .map(food => this.props.navigation.getParam('selectFoods')[food.id])
+        .map(food =>
+          this.props.navigation
+            .getParam('selectFoods')
+            .find(element => element.id === food.id)
+        )
     ])
   ];
 

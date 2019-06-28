@@ -30,7 +30,6 @@ const spicyData = [
 ];
 
 const Width = Dimensions.get('screen').width;
-console.log(Width);
 
 export default class Home extends React.Component {
   state = {
