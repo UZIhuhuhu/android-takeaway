@@ -17,6 +17,7 @@ import Dialog, {
 import Avatar from '../assets/avatar.png';
 import foodsData from '../data';
 
+console.log(foodsData);
 const spicyData = [
   {
     name: '微辣',
